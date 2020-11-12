@@ -25,7 +25,7 @@ CaesarCipher::CaesarCipher(const std::string& key)
     }
 }
 
-std::string CaesarCipher::applyCipher(const std::string& inputText, const bool encrypt) const
+std::string CaesarCipher::applyCipher(const std::string& inputText, const CipherMode cipherMode) const
 {
   std::string outputText {""};
 
@@ -34,11 +34,13 @@ std::string CaesarCipher::applyCipher(const std::string& inputText, const bool e
     for (size_t i{0}; i< alphabetSize_; ++i ) {
 
       if ( origChar == alphabet_[i] ) {
-	if ( encrypt ) {
+	switch (cipherMode) {
+	case CipherMode::Encrypt :
 	  processedChar = alphabet_[ (i + key_) % alphabetSize_ ];
-	}
-	else {
+	  break;
+	case CipherMode::Decrypt :
 	  processedChar = alphabet_[ (i + alphabetSize_ - key_) % alphabetSize_ ];
+	  break;
 	}
 	break;
       }
